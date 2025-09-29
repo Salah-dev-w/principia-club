@@ -1,550 +1,694 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>نادي برينسيبيا العلمي</title>
+  <meta name="description" content="نادي برينسيبيا العلمي نادي جامعي تأسس 2022 يجمع الفيزياء و التكنولوجيا و الكيمياء و يوفر ورشات و مجلة سديم وفرص للطلاب للانخراط في مشاريع و مسابقات" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚛️</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
+    /* ================== متغيرات عامة ================== */
     :root{
-      --blue-1:#003f8a;
-      --blue-2:#0066c7;
-      --blue-3:#2ea6ff;
-      --white:#ffffff;
-      --card-shadow: 0 10px 30px rgba(2,6,23,0.45);
-      --radius:14px;
-      --max-width:1200px;
-      --font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      --bg-1: #071122;
+      --bg-2: #0f172a;
+      --accent-1: #22d3ee;
+      --accent-2: #06b6d4;
+      --muted: #94a3b8;
+      --card: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.04);
+      --radius: 14px;
+      --max-width: 1200px;
+      --container-padding: 20px;
+      --ease: cubic-bezier(.2,.9,.2,1);
+      --shadow-dark: 0 10px 30px rgba(2,6,23,0.6);
+      --shadow-accent: 0 20px 50px rgba(6,182,212,0.06);
     }
+
+    /* ================== قواعد أساسية ================== */
     *{box-sizing:border-box}
+    :focus-visible{
+      outline: 3px solid var(--accent-1);
+      outline-offset: 4px;
+    }
     html,body{height:100%}
     body{
       margin:0;
-      font-family:var(--font-family);
-      background:linear-gradient(180deg,var(--blue-1) 0%, #052a5b 35%, #011328 100%);
-      color:var(--white);
+      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(180deg,var(--bg-1), var(--bg-2));
+      color: #e6eef6;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      direction:rtl;
-      overflow-x:hidden;
+      line-height:1.6;
+      scroll-behavior:smooth;
     }
-    #bg-canvas{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
-      display:block;
+
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    
+    .main-nav ul{
+      list-style:none; padding:0; margin:0;
+      display:flex; gap:8px; align-items:center;
     }
-    .wrap{
-      position:relative;
-      z-index:2;
-      max-width:var(--max-width);
-      margin:0 auto;
-      padding:32px;
-    }
+
+    /* ================== رأس الموقع ================== */
     header{
+      position:fixed;
+      inset:0 0 auto 0;
+      z-index:1200;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
-      padding:12px 0;
+      gap:12px;
+      width:100%;
+      padding:14px var(--container-padding);
+      background:linear-gradient(180deg, rgba(7,17,34,0.6), rgba(7,17,34,0.35));
+      backdrop-filter: blur(6px);
+      border-bottom:1px solid rgba(255,255,255,0.03);
     }
-    .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--white)}
-    .logo .mark{
-      width:56px;height:56px;border-radius:12px;
-      background:linear-gradient(135deg,var(--blue-2),var(--blue-3));
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+    }
+    .logo{
+      width:48px;height:48px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
       display:flex;align-items:center;justify-content:center;
-      box-shadow:0 6px 20px rgba(46,166,255,0.12), inset 0 -6px 20px rgba(0,0,0,0.12);
-      font-weight:700;font-size:20px;letter-spacing:1px;
+      font-weight:800;color:#01243a;font-size:20px;
+      box-shadow:0 6px 20px rgba(6,182,212,0.08);
     }
-    .logo h1{margin:0;font-size:18px}
-    nav{display:flex;gap:12px;align-items:center}
-    nav a{
-      color:var(--white);text-decoration:none;padding:8px 14px;border-radius:10px;
-      transition:all .25s ease;font-size:15px;
+    .brand h1{
+      font-size:18px;margin:0;
+      letter-spacing:0.2px;
+      color:linear-gradient(90deg,#fff,#ddd);
     }
-    nav a:hover{background:rgba(255,255,255,0.06);transform:translateY(-3px)}
+    nav.main-nav a{
+      padding:8px 12px;border-radius:10px;
+      color:var(--muted);font-weight:600;font-size:15px;
+    }
+    nav.main-nav a:hover{color:var(--accent-1);transform:translateY(-3px);transition:all .18s var(--ease)}
+
+    .menu-toggle{
+      display:none;
+      background:transparent;border:1px solid rgba(255,255,255,0.04);
+      padding:8px 12px;border-radius:10px;color:var(--muted);
+      cursor:pointer;
+    }
+
+    /* ================== Hero مع Parallax ================== */
     .hero{
-      display:flex;gap:28px;align-items:center;justify-content:space-between;margin-top:28px;
-      padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
-      border-radius:18px;backdrop-filter: blur(6px);box-shadow:var(--card-shadow);
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      padding:0 var(--container-padding);
     }
-    .hero-left{flex:1 1 540px;min-width:280px}
-    .kicker{
-      display:inline-block;background:linear-gradient(90deg,var(--blue-3),var(--blue-2));
-      color:var(--white);padding:8px 12px;border-radius:999px;font-weight:700;font-size:13px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+
+    .parallax{
+      position:absolute;inset:0;pointer-events:none;
     }
-    .hero h2{margin:18px 0 10px;font-size:36px;line-height:1.03}
-    .hero p{margin:0 0 18px;color:rgba(255,255,255,0.88);font-size:16px;max-width:680px}
-    .cta-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 20px;border-radius:12px;border:0;cursor:pointer;font-weight:700;font-size:15px;transition:transform .15s ease, box-shadow .15s ease;position:relative;overflow:hidden}
-    .btn.primary{background:linear-gradient(90deg,var(--blue-3),var(--blue-2));color:#01203a;box-shadow: 0 12px 30px rgba(46,166,255,0.16), 0 6px 10px rgba(0,0,0,0.2)}
-    .btn.secondary{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.08);backdrop-filter: blur(4px)}
-    .btn:active{transform:translateY(2px)}.btn:hover{transform:translateY(-4px)}
-    .hero-card{width:320px;padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));box-shadow: 0 10px 30px rgba(2,6,23,0.5);backdrop-filter: blur(6px);text-align:left;margin-left:auto}
-    .stats{display:flex;gap:12px;margin-top:12px;justify-content:space-between}
-    .stat{flex:1;text-align:center;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));transition:transform .2s}
-    .stat h3{margin:0;font-size:20px}.stat p{margin:6px 0 0;font-size:12px;color:rgba(255,255,255,0.8)}
-    .stat:hover{transform:translateY(-6px)}
-    .sections{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .card{padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow: 0 8px 20px rgba(2,6,23,0.45);transition:transform .25s ease, box-shadow .25s;min-height:140px}
-    .card h4{margin:0 0 10px}.card p{margin:0;color:rgba(255,255,255,0.85)}
-    .card:hover{transform:translateY(-8px); box-shadow:0 20px 40px rgba(2,6,23,0.6)}
-    .reveal{opacity:0;transform:translateY(18px) scale(.995);transition:all .7s cubic-bezier(.2,.9,.2,1)}
-    .reveal.visible{opacity:1;transform:none}
-    .magazine{margin-top:28px;display:flex;gap:18px;align-items:stretch}
-    .magazine .cover{flex:0 0 280px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,var(--blue-2),var(--blue-3));display:flex;align-items:center;justify-content:center;padding:20px;box-shadow:0 16px 40px rgba(0,0,0,0.35)}
-    .magazine .info{flex:1;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.008))}
-    .join{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(46,166,255,0.06), rgba(0,102,199,0.03));display:flex;gap:12px;align-items:center;justify-content:space-between}
-    .join form{display:flex;gap:12px;align-items:center}
-    .input{padding:12px 14px;border-radius:10px;border:0;outline:none;min-width:200px;font-size:14px;background:rgba(255,255,255,0.03);color:var(--white)}
-    footer{margin-top:36px;padding:22px;text-align:center;color:rgba(255,255,255,0.72);font-size:14px}
-    @media (max-width:980px){
-      .sections{grid-template-columns:repeat(2,1fr)}
-      .hero{flex-direction:column}
-      .magazine{flex-direction:column}
-      .hero-card{width:100%}
-      header{flex-direction:column;align-items:flex-start;gap:8px}
+    .parallax .layer{
+      position:absolute;left:50%;transform:translateX(-50%);
+      will-change:transform,opacity;
+      opacity:0.85;
     }
-    @media (max-width:640px){
-      .sections{grid-template-columns:1fr}
-      nav{display:none}
-      .hero h2{font-size:28px}
-      .kicker{font-size:12px;padding:6px 10px}
+    
+    /* *** تم تغيير رابط الصورة إلى محلي في CSS *** */
+    .parallax .bg{
+      top:-10%; 
+      width:140%; 
+      background-color: var(--bg-1);
+      background-image: 
+        linear-gradient(180deg, rgba(7,17,34,0.7) 0%, rgba(15,23,42,0.5) 100%), 
+        url('assets/images/hero-bg.jpg'); 
+      background-size:cover;
+      background-position:center;
+      height:130%;
+      filter: blur(10px) saturate(110%) brightness(0.75); 
+      transition: filter 0.5s var(--ease); 
     }
-    .pulse{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:160%;height:160%;background:radial-gradient(circle, rgba(46,166,255,0.18) 0%, rgba(46,166,255,0.02) 40%, transparent 70%);opacity:0;transition:opacity .3s ease;pointer-events:none}
-    .btn.primary:hover .pulse{opacity:1}
-    .ripple{position:absolute;border-radius:999px;transform:scale(0);animation:ripple .6s linear;background:rgba(255,255,255,0.22);pointer-events:none}
-    @keyframes ripple{to{transform:scale(4);opacity:0}}
-    .spark{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--white);box-shadow:0 0 12px rgba(255,255,255,0.9);margin-left:8px;animation:float 2s ease-in-out infinite}
-    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+    .hero:hover .parallax .bg {
+        filter: blur(6px) saturate(130%) brightness(0.9);
+    }
+
+    .parallax .mid{
+      top:10%; 
+      width:110%; 
+      height:80%;
+      background: 
+        radial-gradient(circle at 70% 30%, rgba(34,211,238,0.12) 0%, transparent 40%),
+        linear-gradient(90deg, rgba(34,211,238,0.06), rgba(6,182,212,0.03));
+      border-radius:40%;
+      opacity: 0.9; 
+      filter: blur(2px); 
+    }
+    .parallax .shapes{
+      bottom:-10%; 
+      width:120%; 
+      height:40%;
+      background: 
+        radial-gradient(circle at 20% 70%, rgba(34,211,238,0.1) 0%, transparent 25%),
+        radial-gradient(circle at 80% 40%, rgba(6,182,212,0.08) 0%, transparent 22%),
+        linear-gradient(270deg, rgba(34,211,238,0.02) 0%, rgba(6,182,212,0.01) 100%);
+      opacity: 0.8;
+      filter: blur(1px); 
+    }
+    /* === نهاية تحسينات الخلفية === */
+
+    .hero-inner{
+      position:relative;z-index:6;max-width:1100px;margin:auto;padding:48px;
+      display:flex;gap:24px;align-items:center;justify-content:center;flex-direction:column;
+    }
+
+    .hero h2{
+      font-size: clamp(28px, 4vw, 48px); margin:0 0 16px;
+      background: linear-gradient(90deg,#ffffff 0%, #d6f6ff 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      line-height:1.05;
+    }
+    .hero p{
+      max-width:780px;color:rgba(230,238,246,0.9);font-size:clamp(15px,1.6vw,18px);
+      margin-bottom:20px;
+    }
+
+    .hero-cta{
+      display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+    }
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      color:#01243a;padding:14px 22px;border-radius:999px;border:none;font-weight:700;
+      cursor:pointer;box-shadow:0 14px 40px rgba(6,182,212,0.08);transition:transform .18s;
+    }
+    .btn-primary:hover{transform:translateY(-6px)}
+    .btn-ghost{
+      background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);
+      padding:12px 18px;border-radius:12px;font-weight:700;
+    }
+
+    /* ================== محتوى الموقع ================== */
+    .container{max-width:var(--max-width);margin:0 auto;padding:40px var(--container-padding);}
+
+    .about-grid{
+      display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;
+    }
+    .about-text h3{margin-top:0;color:var(--accent-1);font-size:18px}
+    .about-text p{color:rgba(230,238,246,0.92);line-height:1.7}
+
+    .cards{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px;border-radius:14px;
+      box-shadow:var(--shadow-dark);
+      transition:transform .25s var(--ease), box-shadow .25s;
+    }
+    .card:hover{
+      transform:translateY(-8px);
+      box-shadow:var(--shadow-accent);
+    }
+    .card h4{margin:0 0 8px;color:#e6faff}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+
+    .team{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:18px;
+    }
+    .member{
+      background:var(--card);padding:12px;border-radius:12px;text-align:center;
+      transition:transform .18s, box-shadow .18s;
+    }
+    .member img{width:84px;height:84px;border-radius:50%;object-fit:cover;margin:auto}
+    .member h5{margin:8px 0 4px;font-size:15px}
+    .member p{margin:0;color:var(--muted);font-size:13px}
+    .member:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(0,0,0,0.45)}
+
+    .gallery{
+      display:grid;grid-template-columns: repeat(auto-fit,minmax(180px,1fr));gap:10px;
+      margin-top:18px;
+    }
+    .gallery figure{margin:0;border-radius:12px;overflow:hidden;background:var(--glass)}
+    .gallery img{width:100%;height:140px;object-fit:cover;display:block;transition:transform .3s}
+    .gallery img:hover{transform:scale(1.04)}
+
+    .join-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:22px;border-radius:16px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+    }
+    .join-info{flex:1;min-width:260px}
+    .join-form{width:420px;max-width:100%}
+    .field{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+    input[type="text"],input[type="email"],textarea,select{
+      padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;
+    }
+    input:focus,textarea:focus{box-shadow:0 6px 20px rgba(6,182,212,0.06)} 
+    .small{font-size:13px;color:var(--muted)}
+
+    .faq{margin-top:10px}
+    .faq details{background:var(--card);padding:12px;border-radius:10px;margin-bottom:8px}
+    .faq summary{cursor:pointer;font-weight:700}
+
+    footer{
+      padding:30px var(--container-padding);
+      text-align:center;background:linear-gradient(180deg, rgba(0,0,0,0.2), transparent);
+      margin-top:40px;color:var(--muted);
+    }
+    
+    #backToTop{
+        position:fixed;
+        bottom:20px;
+        right:20px;
+        z-index:1000;
+        background:var(--accent-2);
+        color:#01243a; 
+        padding:10px 14px;
+        border-radius:50%;
+        text-decoration:none;
+        display:none;
+        opacity:0;
+        transition:all 0.3s var(--ease);
+        font-size: 1.2em;
+        line-height: 1;
+        border:none;
+        cursor:pointer;
+    }
+    #backToTop:hover{
+        background:var(--accent-1);
+    }
+
+    /* ================== Accessibility & Reduced motion ================== */
+    @media (prefers-reduced-motion: reduce){
+      * {transition:none !important;animation:none !important}
+    }
+
+    /* ================== استجابة ================== */
+    @media (max-width: 1024px){
+      .about-grid{grid-template-columns:1fr}
+      header{padding:12px 16px}
+    }
+    @media (max-width: 720px){
+      nav.main-nav {
+        display: none;
+        position: absolute;
+        right: 14px;
+        top: 64px;
+        background: rgba(7,17,34,0.95);
+        padding: 12px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        flex-direction: column;
+        gap: 0;
+      }
+      nav.main-nav.is-open {
+        display: flex;
+      }
+      .menu-toggle{display:inline-block}
+
+      .hero{padding:20px 16px}
+      .hero-inner{padding:24px}
+      nav.main-nav ul { flex-direction: column; gap: 0;}
+      nav.main-nav a { display: block; width: 100%; padding: 10px; }
+    }
+    @media (max-width:420px){
+      header{padding:10px}
+      .hero h2{font-size:22px}
+      .hero p{font-size:14px}
+      .card{padding:14px}
+    }
   </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
-
-<div class="wrap">
-
-  <header>
-    <a class="logo" href="#" id="logoLink">
-      <div class="mark">P</div>
+  <header role="banner">
+    <a class="brand" href="#" aria-label="نادي برينسيبيا">
+      <div class="logo" aria-hidden="true">P</div>
       <div>
         <h1>نادي برينسيبيا</h1>
-        <div style="font-size:12px;color:rgba(255,255,255,0.8)">From Principles to Progress</div>
+        <div style="font-size:12px;color:var(--muted)">From Principles to Progress</div>
       </div>
     </a>
 
-    <nav>
-      <a href="#about">حول النادي</a>
-      <a href="#activities">الأنشطة</a>
-      <a href="#mag">المجلة</a>
-      <a href="#join">انضم الآن</a>
-      <a href="#contact">اتصل بنا</a>
+    <nav class="main-nav" role="navigation" aria-label="روابط الموقع">
+      <ul>
+        <li><a href="#about">عن النادي</a></li>
+        <li><a href="#activities">الأنشطة</a></li>
+        <li><a href="#team">الفريق</a></li>
+        <li><a href="#join">انضم إلينا</a></li>
+        <li><a href="#contact">تواصل</a></li>
+      </ul>
     </nav>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" id="menuToggle">القائمة</button>
   </header>
 
-  <section class="hero">
-    <div class="hero-left">
-      <span class="kicker">انضم إلينا</span>
-      <h2>اكتشف متعة العلم واصنع مستقبلًا تقنيًا مبتكرًا</h2>
-      <p>نادي برينسيبيا العلمي مكان يجمع الطلبة من مختلف التخصصات للعمل على مشاريع حقيقية وتجارب علمية وورشات تقنية تعزز مهاراتك وتفتح أمامك أبواب المسابقات والفرص المهنية</p>
-
-      <div class="cta-row">
-        <button class="btn primary" id="joinBtn">
-          انضم الآن
-          <span class="spark" aria-hidden="true"></span>
-          <span class="pulse" aria-hidden="true"></span>
-        </button>
-
-        <button class="btn secondary" id="learnBtn">المزيد عن النادي</button>
+  <main>
+    <section class="hero" id="home" role="region" aria-label="مقدمة">
+      <div class="parallax" id="parallax">
+        <div class="layer bg" data-speed="0.08" aria-hidden="true"></div>
+        <div class="layer mid" data-speed="0.16" aria-hidden="true"></div>
+        <div class="layer shapes" data-speed="0.24" aria-hidden="true"></div>
       </div>
 
-      <div style="height:16px"></div>
+      <div class="hero-inner" role="article">
+        <h2>اكتشف العلم، صمّم المستقبل، وكون فريقك في برينسيبيا</h2>
+        <p>انضم إلى مجتمع طلابي متحمّس للفيزياء والتكنولوجيا والكيمياء شارك مشاريع، نشر مقالات في مجلة سديم، وطور مهاراتك العملية والمهنية</p>
 
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <div style="display:flex;gap:8px;align-items:center;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px">
-          <strong style="font-size:18px">2022</strong>
-          <span style="font-size:13px;color:rgba(255,255,255,0.85)">سنة التأسيس</span>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px">
-          <strong style="font-size:18px">مجلة سديم</strong>
-          <span style="font-size:13px;color:rgba(255,255,255,0.85)">منبرنا للنشر</span>
+        <div class="hero-cta">
+          <button class="btn-primary" id="joinNow">انضم الآن</button>
+          <a class="btn-ghost" href="#about">المزيد عن النادي</a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <aside class="hero-card reveal" id="heroCard">
-      <div style="display:flex;justify-content:space-between;align-items:center">
+    <section id="about" class="container" role="region" aria-labelledby="about-title">
+      <h2 id="about-title" class="section-title">عن النادي</h2>
+
+      <div class="about-grid" id="aboutGrid">
+        <div class="about-text" tabindex="0">
+          <h3>نظرة سريعة</h3>
+          <p>
+            تأسّس نادي برينسيبيا سنة 2022 على يد طلبة الفيزياء بهدف تقريب العلوم للطلبة ونشر الثقافة العلمية داخل المجتمع الجامعي. تطوّر النادي ليشمل تخصصات الإعلام الآلي والكيمياء والتقنية، وأصدر مجلة سديم التي تناقش الحوسبة والمواضيع العلمية الحديثة. أنشطتنا تجمع بين الجانب العملي والنظري مع فرص للمشاركة في مسابقات ومشاريع مشتركة.
+          </p>
+
+          <div class="cards" aria-hidden="false">
+            <div class="card" role="article" aria-label="محاضرات وورش">
+              <h4>ورش ومحاضرات</h4>
+              <p>سلسلة محاضرات وورش تطبيقية مع أساتذة ومتخصصين في مجالات متنوعة</p>
+            </div>
+
+            <div class="card" role="article" aria-label="المجلة">
+              <h4>مجلة سديم</h4>
+              <p>مساحة نشر لطلاب النادي تتناول الحوسبة، الذكاء الاصطناعي، والتطبيقات العلمية</p>
+            </div>
+
+            <div class="card" role="article" aria-label="تجارب معملية">
+              <h4>تجارب معملية آمنة</h4>
+              <p>تطبيق تجارب بسيطة وممتعة تبسّط المفاهيم العلمية</p>
+            </div>
+
+            <div class="card" role="article" aria-label="مشاريع">
+              <h4>مشاريع تقنية</h4>
+              <p>عمل مجموعات لتطوير تطبيقات وأجهزة بسيطة تعلّم مهارات حقيقية</p>
+            </div>
+          </div>
+        </div>
+
+        <div aria-hidden="false">
+          <picture>
+            <source srcset="assets/images/about-lab-large.jpg" media="(min-width:700px)">
+            <img loading="lazy" src="assets/images/about-lab.jpg" alt="طلاب في نشاط علمي" style="border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,0.45)">
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <section id="activities" class="container" role="region" aria-labelledby="activities-title">
+      <h2 id="activities-title" class="section-title">الأنشطة</h2>
+      <div class="cards" role="list">
+        <article class="card" role="listitem" aria-labelledby="a1">
+          <h4 id="a1">محاضرات وورش</h4>
+          <p>ورش تطبيقية في الفيزياء، إلكترونيات، برمجة، وورش كتابة علمية للمجلة</p>
+        </article>
+
+        <article class="card" role="listitem" aria-labelledby="a2">
+          <h4 id="a2">المجلة وورش النشر</h4>
+          <p>تدريب على كتابة مقالات علمية، مراجعة الأقران، ونشر الأعداد الدورية</p>
+        </article>
+
+        <article class="card" role="listitem" aria-labelledby="a3">
+          <h4 id="a3">مسابقات وهاكاثون</h4>
+          <p>تنظيم مسابقات برمجة وتصميم مشاريع قصيرة لرفع مستوى المنافسة</p>
+        </article>
+
+        <article class="card" role="listitem" aria-labelledby="a4">
+          <h4 id="a4">تجارب حية</h4>
+          <p>عروض تجارب كيميائية وفيزيائية آمنة وميسرة للطلبة</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="team" class="container" role="region" aria-labelledby="team-title">
+      <h2 id="team-title" class="section-title">فريقنا</h2>
+      <p class="small" style="text-align:center">مجموعة من الطلبة المتحمسين من تخصصات متعددة يقودون مشاريع النادي</p>
+
+      <div class="team" role="list">
+        <div class="member" role="listitem" aria-label="آدم - مؤسس">
+          <img loading="lazy" src="assets/images/team-zaki.jpg" alt="صورة زاكي">
+          <h5>زاكي</h5>
+          <p>مؤسس - فيزياء</p>
+        </div>
+
+        <div class="member" role="listitem" aria-label="ليلى - مسؤولة المحتوى">
+          <img loading="lazy" src="assets/images/team-zaki.jpg" alt="صورة هالة">
+          <h5>هالة</h5>
+          <p>مسؤولة المحتوى - مجلة سديم</p>
+        </div>
+
+        <div class="member" role="listitem" aria-label="يوسف - مهندس برمجيات">
+          <img loading="lazy" src="assets/images/team-zaki.jpg" alt="صورة صلاح">
+          <h5>صلاح</h5>
+          <p>مشروع الذكاء الاصطناعي</p>
+        </div>
+
+        <div class="member" role="listitem" aria-label="سارة - منسقة تجارب">
+          <img loading="lazy" src="assets/images/team-zaki.jpg" alt="صورة نسرين">
+          <h5>نسرين</h5>
+          <p>منسقة تجارب - كيمياء</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="container" role="region" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" class="section-title">معرض الصور</h2>
+      <div class="gallery" role="list">
+        <figure role="listitem"><img loading="lazy" src="assets/images/gallery-1.jpg" alt="نشاط 1"></figure>
+        <figure role="listitem"><img loading="lazy" src="assets/images/gallery-1.jpg" alt="نشاط 2"></figure>
+        <figure role="listitem"><img loading="lazy" src="assets/images/gallery-1.jpg" alt="نشاط 3"></figure>
+        <figure role="listitem"><img loading="lazy" src="assets/images/gallery-1.jpg" alt="نشاط 4"></figure>
+      </div>
+    </section>
+
+    <section id="join" class="container" role="region" aria-labelledby="join-title">
+      <h2 id="join-title" class="section-title">انضم إلينا</h2>
+
+      <div class="join-card" role="form" aria-labelledby="join-title">
+        <div class="join-info">
+          <h3>كن جزءًا من عائلتنا العلمية</h3>
+          <p class="small">املأ النموذج لتصلك دعوات الفعاليات وورش العمل. لا نشارك بياناتك مع طرف ثالث.</p>
+          <div style="margin-top:8px" class="small">فوائد العضوية: مهارات عملية، مشاريع تضاف للسيرة، فرص للتدريب والشراكات</div>
+        </div>
+
+        <form id="joinForm" class="join-form" aria-label="نموذج الانضمام">
+          <div class="field">
+            <label class="small" for="name">الاسم الكامل</label>
+            <input id="name" name="name" type="text" required placeholder="مثال: سمير ب">
+          </div>
+
+          <div class="field">
+            <label class="small" for="email">البريد الإلكتروني</label>
+            <input id="email" name="email" type="email" required placeholder="name@example.com">
+          </div>
+
+          <div class="field">
+            <label class="small" for="major">التخصص</label>
+            <input id="major" name="major" type="text" placeholder="مثال: فيزياء أو إعلام آلي">
+          </div>
+
+          <div class="field">
+            <label class="small" for="why">لماذا تريد الانضمام</label>
+            <textarea id="why" name="why" rows="3" placeholder="فكرة قصيرة"></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" aria-label="أرسل طلب الانضمام">أرسل طلب الانضمام</button>
+        </form>
+      </div>
+
+      <div class="faq" aria-label="الأسئلة الشائعة" style="margin-top:18px">
+        <details><summary>من يمكنه الانضمام للنادي</summary><p class="small">أي طالب جامعي من جميع التخصصات مرحب به</p></details>
+        <details><summary>هل هناك رسوم للعضوية</summary><p class="small">العضوية أساسية مجانية، قد تكون بعض الورش مدفوعة بتكاليف رمزية</p></details>
+        <details><summary>كيف أنشر في مجلة سديم</summary><p class="small">ارسل مقالك عبر نموذج الانضمام أو تواصل معنا عبر البريد</p></details>
+      </div>
+    </section>
+
+    <section id="contact" class="container" role="region" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="section-title">تواصل معنا</h2>
+
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start">
         <div>
-          <h3>لماذا برينسيبيا</h3>
-          <p style="margin-top:6px;font-size:13px;color:rgba(255,255,255,0.9)">بيئة تفاعلية للمشاريع والورشات والمسابقات وفرص التعاون مع شركات ومجموعات بحثية</p>
-        </div>
-        <div style="text-align:center">
-          <div style="font-size:28px;font-weight:800">🌌</div>
-        </div>
-      </div>
+          <p class="small">للطلبات العامة والتعاون والشراكات راسلنا على البريد التالي</p>
+          <p style="font-weight:700">info@principia.club</p>
 
-      <div class="stats" style="margin-top:14px">
-        <div class="stat">
-          <h3 id="membersCount">120+</h3>
-          <p>أعضاء نشطون</p>
+          <h4 style="margin-top:18px">تابعنا</h4>
+          <p class="small">روابط صفحات النادي على شبكات التواصل</p>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <a href="#" style="padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.03)">فيسبوك</a>
+            <a href="#" style="padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.03)">إنستغرام</a>
+            <a href="#" style="padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.03)">تيليغرام</a>
+          </div>
         </div>
-        <div class="stat">
-          <h3>20+</h3>
-          <p>ورشة سنة</p>
-        </div>
-        <div class="stat">
-          <h3>10</h3>
-          <p>إصدارات المجلة</p>
+
+        <div style="background:var(--card);padding:14px;border-radius:12px">
+          <h4>موقعنا</h4>
+          <p class="small">المبنى العلمي - الحرم الجامعي</p>
+          <a href="https://www.google.com/maps" target="_blank" rel="noopener" class="small" style="color:var(--accent-1)">افتح في خرائط Google</a>
         </div>
       </div>
-    </aside>
-  </section>
+    </section>
 
-  <section class="sections">
-    <div class="card reveal" id="about">
-      <h4>حول النادي</h4>
-      <p>تأسس برينسيبيا ليقرب العلوم من الطلبة ويقدم منصة لتبادل المعرفة وإطلاق المشاريع في مجالات الفيزياء والكيمياء والتقنية</p>
-    </div>
+  </main>
 
-    <div class="card reveal" id="activities">
-      <h4>الأنشطة</h4>
-      <p>ورش عمل، تجارب معملية، لقاءات مع مختصين، مسابقات برمجة وهندسة، ونشر في مجلة سديم</p>
-    </div>
-
-    <div class="card reveal">
-      <h4>المهارات التي تكتسبها</h4>
-      <p>برمجة، تحليل بيانات، تجارب مخبرية، كتابة علمية، إدارة مشاريع، وعروض تقديمية احترافية</p>
-    </div>
-  </section>
-
-  <section class="magazine reveal" id="mag">
-    <div class="cover">
-      <div style="text-align:center">
-        <div style="font-size:28px;font-weight:700">سديم</div>
-        <div style="margin-top:6px;font-size:13px;opacity:.95">مجلة علمية تقنية</div>
+  <footer role="contentinfo">
+    <div style="max-width:var(--max-width);margin:auto;padding:12px var(--container-padding);display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>© 2025 نادي برينسيبيا العلمي</div>
+        <div style="color:var(--muted)">صنع بحب من أعضاء النادي</div>
       </div>
     </div>
-    <div class="info">
-      <h3>مجلة سديم</h3>
-      <p>منصة طلابية لنشر مقالات في الحوسبة، الذكاء الاصطناعي، الفيزياء التطبيقية والكيمياء الإبداعية. شارك بمقالك أو مشروعك لتظهر بين قرائنا</p>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <button class="btn primary" id="openMagBtn">اقرأ العدد الأخير</button>
-        <button class="btn secondary" id="contributeBtn">ساهم بالمقال</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="join reveal" id="join">
-    <div>
-      <h3 style="margin:0 0 6px">انضم بسرعة</h3>
-      <p style="margin:0 0 8px;color:rgba(255,255,255,0.9)">أدخل بريدك الالكتروني وسنوافيك بدعوات الورش والمشاريع</p>
-      <form id="quickJoin">
-        <input class="input" type="email" placeholder="بريدك الإلكتروني" required id="emailField" />
-        <button class="btn primary" type="submit">سجل</button>
-      </form>
-    </div>
-    <div style="text-align:left;max-width:420px">
-      <h4 style="margin:0 0 8px">ماذا تنتظر</h4>
-      <p style="margin:0;color:rgba(255,255,255,0.85)">فرص تدريبية، مشاريع مشتركة، وشبكة علاقات مهنية تبدأ من هنا</p>
-    </div>
-  </section>
-
-  <footer id="contact">
-    © نادي برينسيبيا العلمي 2022 — تواصل معنا عبر البريد info@principia.club
   </footer>
 
-</div>
+  <button id="backToTop" role="button" aria-label="العودة للأعلى">⬆️</button>
 
-<div id="modal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:40">
-  <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(1,10,30,0.7), rgba(0,0,0,0.7));backdrop-filter:blur(3px)"></div>
-  <div style="position:relative;max-width:720px;width:92%;padding:20px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 30px 80px rgba(0,0,0,0.7);">
-    <h3 style="margin-top:0">انضمام إلى نادي برينسيبيا</h3>
-    <p>املأ البيانات التالية وسنعيد الاتصال بك لدعوتك للفعالية القادمة</p>
-    <form id="fullJoin" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
-      <input class="input" placeholder="الاسم الكامل" required name="name" />
-      <input class="input" placeholder="التخصص" required name="major" />
-      <input class="input" placeholder="السنة الدراسية" required name="year" />
-      <input class="input" placeholder="بريدك الإلكتروني" required name="email" type="email" />
-      <textarea class="input" name="note" placeholder="هل لديك فكرة لمشروع؟" style="grid-column:1/-1;height:90px;padding-top:10px"></textarea>
-      <div style="grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn secondary" type="button" id="closeModal">إلغاء</button>
-        <button class="btn primary" type="submit">إرسال و الانضمام</button>
-      </div>
-    </form>
-  </div>
-</div>
 
-<script>
-  // عناصر الواجهة المحفوظة
-  const canvas = document.getElementById('bg-canvas');
-  const ctx = canvas.getContext && canvas.getContext('2d');
-  let W = innerWidth;
-  let H = innerHeight;
-  let particles = [];
-  let particleCount = Math.round((W * H) / 45000);
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.querySelector('nav.main-nav');
+    menuToggle && menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!expanded));
+      mainNav.classList.toggle('is-open');
+    });
 
-  // دالة مساعدة
-  function rand(min, max){ return Math.random() * (max - min) + min }
+    (function combinedParallaxUpdate(){
+      const parallax = document.getElementById('parallax');
+      if(!parallax || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // فصل إنشاء عدد الجسيمات ليعاد حسابه عند تغيير الحجم
-  function computeParticleCount(){
-    W = canvas.width = innerWidth;
-    H = canvas.height = innerHeight;
-    let base = Math.round((W * H) / 45000);
-    // على الشاشات الصغيرة نقلل العدد لتحسين الأداء
-    if (innerWidth < 700) base = Math.max(12, Math.floor(base * 0.45));
-    particleCount = Math.max(8, base);
-    return particleCount;
-  }
+      const layers = Array.from(parallax.querySelectorAll('.layer'));
+      let mouseX = 0, mouseY = 0;
 
-  class Particle {
-    constructor(){
-      this.reset();
-    }
-    reset(){
-      this.x = Math.random() * W;
-      this.y = Math.random() * H;
-      this.vx = rand(-0.2, 0.6);
-      this.vy = rand(-0.3, 0.3);
-      this.size = rand(0.6, 2.6);
-      this.alpha = rand(0.05, 0.35);
-    }
-    update(){
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x > W + 20) this.x = -20;
-      if (this.x < -20) this.x = W + 20;
-      if (this.y > H + 20) this.y = -20;
-      if (this.y < -20) this.y = H + 20;
-    }
-    draw(){
-      ctx.beginPath();
-      ctx.fillStyle = 'rgba(46,166,255,' + this.alpha + ')';
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
+      window.addEventListener('mousemove', (e) => {
+        if(window.innerWidth < 720) return;
+        const cx = window.innerWidth/2;
+        const cy = window.innerHeight/2;
+        mouseX = (e.clientX - cx) / cx;
+        mouseY = (e.clientY - cy) / cy;
+      }, {passive:true});
+      
+      const updateParallax = () => {
+        const sc = window.scrollY;
+        
+        layers.forEach((layer, i) => {
+          const scrollSpeed = parseFloat(layer.dataset.speed) || 0.12;
+          const scrollY = sc * scrollSpeed;
+          let mouseTranslateX = 0;
+          let mouseTranslateY = 0;
 
-  function initParticles(){
-    particles = [];
-    const n = computeParticleCount();
-    for(let i = 0; i < n; i++) particles.push(new Particle());
-  }
+          if(window.innerWidth >= 720){
+              const depth = (i+1) * 6;
+              mouseTranslateX = mouseX * depth;
+              mouseTranslateY = mouseY * depth * -1; 
+          }
+          
+          layer.style.transform = `translate3d(-50%, ${scrollY + mouseTranslateY}px, 0) translate3d(${mouseTranslateX}px, 0, 0)`;
+        });
+        
+        requestAnimationFrame(updateParallax);
+      };
+      
+      requestAnimationFrame(updateParallax); 
+    })();
 
-  // إعادة ضبط عند تغيير حجم النافذة
-  function onResize(){
-    computeParticleCount();
-    // إذا كان عدد الجسيمات الجديد أكبر أو أصغر نعيد تهيئتها
-    if (particles.length !== particleCount){
-      initParticles();
-    }
-  }
-  addEventListener('resize', () => {
-    // نخدع المتصفح للتقليل من النداءات المتكررة
-    clearTimeout(window._resizeTimer);
-    window._resizeTimer = setTimeout(onResize, 120);
-  });
 
-  // حلقة الرسم
-  function loop(){
-    if (!ctx) return;
-    ctx.clearRect(0, 0, W, H);
+    (function revealOnScroll(){
+      const opts = { threshold: 0.12 };
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+            entry.target.style.transition = 'all 700ms cubic-bezier(.2,.9,.2,1)';
+            obs.unobserve(entry.target);
+          }
+        });
+      }, opts);
 
-    // تدرج إضاءة خفيف من الأعلى
-    let g = ctx.createRadialGradient(W * 0.15, H * 0.12, 0, W * 0.35, H * 0.2, Math.max(W, H));
-    g.addColorStop(0, 'rgba(46,166,255,0.08)');
-    g.addColorStop(0.5, 'rgba(46,166,255,0.02)');
-    g.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
-
-    // رسم الجسيمات
-    for (let p of particles){
-      p.update();
-      p.draw();
-    }
-
-    // رسم خطوط بين الجسيمات القريبة
-    // نحد من حساب الأزواج إذا كان عدد الجسيمات كبيرًا
-    const limitForLines = Math.min(particles.length, 220);
-    for (let i = 0; i < limitForLines; i++){
-      for (let j = i + 1; j < limitForLines; j++){
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const d2 = dx * dx + dy * dy;
-        const threshold = 6000; // مربع المسافة
-        if (d2 < threshold){
-          const alpha = 0.12 * (1 - d2 / threshold);
-          ctx.strokeStyle = 'rgba(46,166,255,' + alpha + ')';
-          ctx.lineWidth = 0.6;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    requestAnimationFrame(loop);
-  }
-
-  // تهيئة أولية
-  initParticles();
-  loop();
-
-  // الكشف عن العناصر عند التمرير
-  const reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window){
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting){
-          entry.target.classList.add('visible');
-          obs.unobserve(entry.target);
-        }
+      document.querySelectorAll('section.container, section.hero').forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(18px)';
+        observer.observe(el);
       });
-    }, {threshold: 0.14});
-    reveals.forEach(r => io.observe(r));
-  } else {
-    // في حال عدم توفر API نعرض العناصر افتراضياً
-    reveals.forEach(r => r.classList.add('visible'));
-  }
+      const hero = document.querySelector('.hero');
+      if(hero){ setTimeout(()=> { hero.style.opacity=1; hero.style.transform='none' }, 200) }
+    })();
 
-  // عداد الأعضاء مع حماية وجود العنصر
-  const membersCountEl = document.getElementById('membersCount');
-  let displayed = 120;
-  function animateCount(){
-    if (!membersCountEl) return;
-    const target = 240;
-    let current = displayed;
-    const steps = 60;
-    const step = Math.max(1, Math.ceil((target - current) / steps));
-    const iv = setInterval(() => {
-      current += step;
-      membersCountEl.textContent = current + '+';
-      if (current >= target){
-        clearInterval(iv);
-        displayed = target;
-        membersCountEl.textContent = target + '+';
-      }
-    }, 30);
-  }
-  const heroCard = document.getElementById('heroCard');
-  if (heroCard && 'IntersectionObserver' in window){
-    const obsCard = new IntersectionObserver((entries, o) => {
-      if (entries[0].isIntersecting){ animateCount(); o.disconnect(); }
-    }, {threshold: 0.3});
-    obsCard.observe(heroCard);
-  } else {
-    // عرض مباشر لو لا يوجد
-    animateCount();
-  }
+    (function handleJoinForm(){
+      const form = document.getElementById('joinForm');
+      if(!form) return;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        if(!name || !email) {
+          alert('الرجاء تعمير الحقول المطلوبة');
+          return;
+        }
+        const btn = form.querySelector('button[type="submit"]');
+        const orig = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'جاري الإرسال...';
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerHTML = orig;
+          form.reset();
+          alert('تم إرسال طلبك شكراً لك سنراسلُك قريباً');
+        }, 1200);
+      });
+    })();
 
-  // تأثير ripple للزررن
-  function createRipple(e){
-    const btn = e.currentTarget;
-    const rect = btn.getBoundingClientRect();
-    const r = document.createElement('span');
-    r.className = 'ripple';
-    const size = Math.max(rect.width, rect.height);
-    r.style.width = r.style.height = size + 'px';
-    r.style.left = (e.clientX - rect.left - size / 2) + 'px';
-    r.style.top = (e.clientY - rect.top - size / 2) + 'px';
-    btn.appendChild(r);
-    r.addEventListener('animationend', () => r.remove());
-    setTimeout(() => { if (r.parentNode) r.remove() }, 800);
-  }
-  document.querySelectorAll('.btn').forEach(b => b.addEventListener('click', createRipple));
+    (function backToTop(){
+      const btn = document.getElementById('backToTop');
+      if(!btn) return;
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          btn.style.display = 'block';
+          setTimeout(() => btn.style.opacity = 1, 10); 
+        } else {
+          btn.style.opacity = 0;
+          setTimeout(() => btn.style.display = 'none', 300); 
+        }
+      }, {passive:true});
+      
+      btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+    
+    (function addStructuredData(){
+      const data = {
+        "@context":"https://schema.org",
+        "@type":"Organization",
+        "name":"نادي برينسيبيا العلمي",
+        "url":location.origin + location.pathname,
+        "logo":"",
+        "description":"نادي جامعي علمي يجمع طلاب الفيزياء والتكنولوجيا والكيمياء لنشر المعرفة وتنظيم الأنشطة",
+        "contactPoint":[{"@type":"ContactPoint","email":"info@principia.club","contactType":"customer service","availableLanguage":["Arabic"]}]
+      };
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.textContent = JSON.stringify(data);
+      document.head.appendChild(s);
+    })();
 
-  // المودال والتعامل مع النماذج
-  const modal = document.getElementById('modal');
-  const joinBtn = document.getElementById('joinBtn');
-  const closeModalBtn = document.getElementById('closeModal');
-  if (joinBtn){
-    joinBtn.addEventListener('click', (ev) => {
-      ev.preventDefault();
-      if (modal) modal.style.display = 'flex';
-      const nameInput = document.querySelector('#modal input[name=name]');
-      if (nameInput) nameInput.focus();
-    });
-  }
-  if (closeModalBtn){
-    closeModalBtn.addEventListener('click', () => {
-      if (modal) modal.style.display = 'none';
-    });
-  }
-  if (modal){
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
-    });
-  }
-
-  // معالجة نموذج الانضمام السريع
-  const quickJoin = document.getElementById('quickJoin');
-  if (quickJoin){
-    quickJoin.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const emailField = document.getElementById('emailField');
-      const email = emailField ? emailField.value.trim() : '';
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-        window.alert('الرجاء إدخال بريد إلكتروني صالح');
-        return;
-      }
-      // تعبئة البريد في المودال إن وُجد وإظهاره
-      const em = document.querySelector('#modal input[name=email]');
-      if (em) em.value = email;
-      if (modal) modal.style.display = 'flex';
-    });
-  }
-
-  // معالجة الإرسال الكامل
-  const fullJoin = document.getElementById('fullJoin');
-  if (fullJoin){
-    fullJoin.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const fd = new FormData(fullJoin);
-      const data = Object.fromEntries(fd.entries());
-      // هنا يجب ربط إرسال البيانات بخدمة حقيقية عبر fetch
-      console.log('انضمام جديد', data);
-      window.alert('شكراً لتسجيلك سنوافيك قريباً بدعوة للفعالية');
-      fullJoin.reset();
-      if (modal) modal.style.display = 'none';
-    });
-  }
-
-  // أزرار المجلة
-  const openMagBtn = document.getElementById('openMagBtn');
-  const contributeBtn = document.getElementById('contributeBtn');
-  if (openMagBtn) openMagBtn.addEventListener('click', () => {
-    window.alert('فتح العدد الأخير من مجلة سديم\nيمكنك ربط هذا الزر بصفحة أو ملف PDF للعرض');
-  });
-  if (contributeBtn) contributeBtn.addEventListener('click', () => {
-    window.alert('شكراً لاهتمامك بالمساهمة\nأرسل مقالك إلى info@principia.club أو استخدم نموذج الانضمام');
-  });
-
-  // سلوك التنقل السلس
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (ev) => {
-      ev.preventDefault();
-      const href = a.getAttribute('href');
-      if (!href || href === '#'){
-        window.scrollTo({top:0, behavior:'smooth'});
-        return;
-      }
-      const id = href.slice(1);
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
-    });
-  });
-
-  // إغلاق المودال بالكيبورد
-  addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal && modal.style.display === 'flex') modal.style.display = 'none';
-  });
-
-  // تهيئة عدد الجسيمات الأولي بناء على حجم النافذة الحالي
-  computeParticleCount();
-</script>
+  </script>
 </body>
 </html>
